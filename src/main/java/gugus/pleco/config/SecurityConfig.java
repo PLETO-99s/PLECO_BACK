@@ -1,7 +1,6 @@
 package gugus.pleco.config;
 
 import gugus.pleco.util.jwt.JwtAuthenticationFilter;
-import gugus.pleco.util.jwt.JwtExceptionFilter;
 import gugus.pleco.util.jwt.JwtTokenProvider;
 import gugus.pleco.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
-    private final JwtExceptionFilter jwtExceptionFilter;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,12 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/signup","/","/login","/duplicate","/profile").permitAll()
+                .antMatchers("/signup","/","/login","/duplicate","/profile","/refresh").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,userRepository)
-                        , UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider)
+                        , UsernamePasswordAuthenticationFilter.class);
     }
 }
 

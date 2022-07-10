@@ -25,10 +25,10 @@ public class JwtArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String token = (String) request.getAttribute("X-AUTH-TOKEN");
+        String token = (String) request.getHeader("ACCESS-TOKEN");
         if(token==null){
             return null;
         }
-        return new JwtDto(jwtTokenProvider.getUserPk(token));
+        return new JwtDto(jwtTokenProvider.getUserPkAccessToken(token));
     }
 }
