@@ -1,8 +1,7 @@
 package gugus.pleco.util.excetion;
 
-public class UserDupulicatedException extends RuntimeException{
-
-    public UserDupulicatedException(String string) {
-        super(string);
+public class UserDuplicatedException extends RuntimeException{
+    public UserDuplicatedException(String message) {
+        super(message);
     }
 }
